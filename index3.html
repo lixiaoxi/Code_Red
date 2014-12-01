@@ -1,0 +1,1376 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Vote</title>
+	<link rel="stylesheet" href="xixi.css">
+	<link rel="stylesheet" href="bootstrap.css">
+	<script type="text/javascript" src="jquery-1.11.1.js"></script>
+	<script type="text/javascript" src="xixi.js"></script>
+	<script type="text/javascript" src="form-master/jquery.form.js"></script>
+	<script src="bootstrap.js"></script>
+	<style type="text/css">
+		html{
+			/*background: #f9f9f9;*/
+		}
+		.vote-welcome{
+			/*test*/
+			/*display: none;*/
+			margin-top: 50px;
+		}
+		.vote-intro{
+			display: none;
+			margin-top: 50px;
+		}
+		.vote-id-input{
+			margin: 0 10px;
+		}
+		.vote-area{
+			/*test*/
+			display: none;
+			margin: 80px 30px 0;
+		}
+		.vote-area-zone{
+			background: #fff;
+			border: 1px solid #ddd;
+			border-radius: 30px;
+			overflow: hidden;
+		}
+		label{
+			display: block;
+			margin: 0;
+		}
+		.vote-area input[type=radio]{
+			margin: 0;
+		}
+		.vote-area-zone{
+			padding-top: 0;
+		}
+		.vote-question{
+			font-weight: 800;
+			margin: 20px 0 20px -15px;
+		}
+		.vote-answer-unit{
+			border: 1px solid #bbb;
+			padding: 10px 0;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+		.vote-row-arrow{
+			visibility: hidden;
+			font-size: 20px;
+		}
+		.vote-row-text,.vote-row-cate{
+			font-size: 17px;
+		}
+		.vote-row-cate{
+			color: #777;
+		}
+		.vote-row-p{
+			font-size: 18px!important;
+			padding: 0 50px 10px 0;
+		}
+		/*.vote-answer-unit:hover{
+			background: #FDFFB8;;
+		}
+		.vote-answer-unit:hover .vote-row-arrow{
+			visibility: visible;
+		}*/
+		.vote-answer-bg{
+			background: #FDFFB8;;
+		}
+		.vote-area-radio{
+			opacity: 0;
+		}
+		.vote-radio{
+			opacity: 0;
+		}
+		.vote-unit{
+			display: none;
+		}
+		.vote-unit:first-child{
+			display: block;
+		}
+		.vote-unit:last-child{
+
+		}
+		.vote-area-zone .vote-number{
+			margin: 60px 15px;
+			font-size: 18px;
+		}
+		.footer-flow{
+			padding-top: 7px;
+		}
+		.review-btn{
+			display: none;
+		}
+		/*.review-area .vote-header,.review-area .vote-footer{
+			display: none;
+		}*/
+		.review-area-1,.review-area-2{
+			padding: 0 30px;
+			display: none;
+		}
+		.panel{
+			position: relative;
+		}
+		.panel-heading,.panel-body{
+			z-index: 0;
+		}
+		.panel-mask{
+			display: block;
+			position: absolute;
+			width: 100%;
+			top: 0;
+			height: 100%;
+			left: 0;
+			z-index: 1;
+			cursor: pointer;
+		}
+		.back-btn{
+			display: none;
+		}
+		.page-header small{
+			margin-left: 20px;
+		}
+		.vote-success{
+			display: none;
+			margin-top: 50px;
+
+		}
+		.panel-body span{
+			font-weight: 400;
+		}
+		.bold{
+			font-weight: 700!important;
+		}
+		.review-area-1 .selected .rep{
+			color: #EE0000;
+		}
+		.review-area-1 .selected .dem{
+			color: #0000EE;
+		}
+		.next-review-btn,.submit-btn{
+			margin-left: 50%;
+		}
+	</style>
+</head>
+<body class="mod-vote-box">
+	<div class="container">
+		<div class="jumbotron vote-welcome">
+	  		<h1 class="text-center">Welcome Voter!</h1>
+	  		<p class="text-center">GENERAL ELECTION BALLOT</p>
+	  		<p class="text-center">HARRIS COUNTY, TEXAS</p>
+			<p class="text-center">NOVEMBER 4, 2012</p>
+	  		<p class="text-center"><button id="vote-begin" class="btn btn-primary btn-lg">BEGIN</button></p>
+	  	</div>
+	  	<div class="jumbotron vote-intro">
+	  		<h1 class="text-center">INTRODUCTIONS</h1>
+	  		<p class="text-center">To Vote Selcet Box Next To Candidate</p>
+	  		<p class="text-center">There is no option to go back while proceeding through the ballot.</p>
+			<p class="text-center">Changes can be made on current page or when on the review screen.</p>
+	  		<p class="text-center form-inline">Please enter voter number<input type="text" class="form-control vote-id-input" placeholder="Number"><button id="vote-id-done" class="btn btn-primary">Next</button></p></p>
+	  	</div>
+	  	<div class="jumbotron vote-success">
+	  		<h1 class="text-center">Your vote has been cast!</h1>
+	  		<p class="text-center">Please complete the following servey!</p>
+	  		<p class="text-center"><a href="https://docs.google.com/forms/d/1p88sVR0MVocLTmY-g2XINHmOP7S81jR7f-l74P4OQ58/viewform?c=0&w=1&usp=mail_form_link">https://docs.google.com/forms/d/1p88sVR0MVocLTmY-g2XINHmOP7S81jR7f-l74P4OQ58/viewform?c=0&w=1&usp=mail_form_link</a></p>
+	  	</div>
+	</div>
+  	<div class="vote-area">
+  		<div class="vote-header">
+  			<nav class="navbar navbar-inverse navbar-fixed-top">
+		        <div class="container-fluid">
+		          <div class="navbar-header">
+		            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+		              <span class="sr-only">Toggle navigation</span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		            </button>
+		            <span class="navbar-brand">Vote</span>
+		          </div>
+		        </div>
+		    </nav>
+  		</div>
+  		<div class="vote-body">
+			<div class="jumbotron vote-area-zone">
+				<div class="col-sm-3">
+  					<p class="vote-number">vote for one</p>
+  				</div>
+				<div class="col-sm-9">
+					<div class="vote-unit row">
+						<h4 class="vote-question">PRESIDENT AND VICE PRESIDENT</h4>
+						<label class="row vote-answer-unit" for="q-1-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Gordon Bearce Nathan Maclean</span>
+							<span class="col-sm-3 vote-row-cate rep">REP</span>
+						</label>
+						<input id="q-1-a" type="radio" name="question-1" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-1-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Vernon Stanley Albury Richard Rigby</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-1-b" type="radio" name="question-1" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-1-c">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Janette Froman Chris Aponte</span>
+							<span class="col-sm-3 vote-row-cate">LIB</span>
+						</label>
+						<input id="q-1-c" type="radio" name="question-1" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">UNITED STATES SENATOR</h4>
+						<label class="row vote-answer-unit" for="q-2-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Cecile Cadieux</span>
+							<span class="col-sm-3 vote-row-cate rep">REP</span>
+						</label>
+						<input id="q-2-a" type="radio" name="question-2" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-2-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Fern Brzezinski</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-2-b" type="radio" name="question-2" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-2-c">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Corey Dery</span>
+							<span class="col-sm-3 vote-row-cate">IND</span>
+						</label>
+						<input id="q-2-c" type="radio" name="question-2" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">REPRESENTATIVE IN CONGRESS</h4>
+						<label class="row vote-answer-unit" for="q-3-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Pedro Brouse</span>
+							<span class="col-sm-3 vote-row-cate rep">REP</span>
+						</label>
+						<input id="q-3-a" type="radio" name="question-3" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-3-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Robert Mettler</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-3-b" type="radio" name="question-3" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">GOVERNOR</h4>
+						<label class="row vote-answer-unit" for="q-4-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Glen Travis Lozier</span>
+							<span class="col-sm-3 vote-row-cate rep">REP</span>
+						</label>
+						<input id="q-4-a" type="radio" name="question-4" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-4-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Rick Stickles</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-4-b" type="radio" name="question-4" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-4-c">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Maurice Humble</span>
+							<span class="col-sm-3 vote-row-cate">IND</span>
+						</label>
+						<input id="q-4-c" type="radio" name="question-4" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">LIEUTENANT GOVERNOR</h4>
+						<label class="row vote-answer-unit" for="q-5-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Shane Terrio</span>
+							<span class="col-sm-3 vote-row-cate rep">REP</span>
+						</label>
+						<input id="q-5-a" type="radio" name="question-5" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-5-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Cassie Principe</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-5-b" type="radio" name="question-5" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">ATTORNEY GENERAL</h4>
+						<label class="row vote-answer-unit" for="q-6-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Tim Speight</span>
+							<span class="col-sm-3 vote-row-cate rep">REP</span>
+						</label>
+						<input id="q-6-a" type="radio" name="question-6" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-6-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Rick Organ</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-6-b" type="radio" name="question-6" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">COMPTROLLER OF PUBLIC ACCOUNTS</h4>
+						<label class="row vote-answer-unit" for="q-7-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Therese Gustin</span>
+							<span class="col-sm-3 vote-row-cate ">IND</span>
+						</label>
+						<input id="q-7-a" type="radio" name="question-7" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-7-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Greg Converse</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-7-b" type="radio" name="question-7" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">COMMISSIONER OF GENERAL LAND OFFICE</h4>
+						<label class="row vote-answer-unit" for="q-8-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Sam Saddler</span>
+							<span class="col-sm-3 vote-row-cate rep">REP</span>
+						</label>
+						<input id="q-8-a" type="radio" name="question-8" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-8-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Elise Ellzey</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-8-b" type="radio" name="question-8" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">COMMISSIONER OF AGRICULTURE</h4>
+						<label class="row vote-answer-unit" for="q-9-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Polly Rylander</span>
+							<span class="col-sm-3 vote-row-cate rep">REP</span>
+						</label>
+						<input id="q-9-a" type="radio" name="question-9" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-9-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Roberto Aron</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-9-b" type="radio" name="question-9" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">RAILROAD COMMISSIONER</h4>
+						<label class="row vote-answer-unit" for="q-10-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Jillian Balas</span>
+							<span class="col-sm-3 vote-row-cate rep">REP</span>
+						</label>
+						<input id="q-10-a" type="radio" name="question-10" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-10-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Zachary Minick</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-10-b" type="radio" name="question-10" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">STATE SENATOR</h4>
+						<label class="row vote-answer-unit" for="q-11-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Ricardo Nigro</span>
+							<span class="col-sm-3 vote-row-cate rep">REP</span>
+						</label>
+						<input id="q-11-a" type="radio" name="question-11" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-11-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Wesley Steven Millette</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-11-b" type="radio" name="question-11" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">STATE REPRESENTATIVE DISTRICT 134</h4>
+						<label class="row vote-answer-unit" for="q-12-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Petra Bencomo</span>
+							<span class="col-sm-3 vote-row-cate rep">REP</span>
+						</label>
+						<input id="q-12-a" type="radio" name="question-12" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-12-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Susanne Rael</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-12-b" type="radio" name="question-12" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">MEMBER STATE BOARD OF EDUCATION DISTRICT 2</h4>
+						<label class="row vote-answer-unit" for="q-13-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Peter Varga</span>
+							<span class="col-sm-3 vote-row-cate rep">REP</span>
+						</label>
+						<input id="q-13-a" type="radio" name="question-13" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-13-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Mark Baber</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-13-b" type="radio" name="question-13" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">PRESIDING JUDGE TEXAS SUPREME COURT PLACE 3</h4>
+						<label class="row vote-answer-unit" for="q-14-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Tim Grasty</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-14-a" type="radio" name="question-14" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">PRESIDING JUDGE COURT OF CRIMINAL APPEALS, PLACE 2</h4>
+						<label class="row vote-answer-unit" for="q-15-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Dan Plouffe</span>
+							<span class="col-sm-3 vote-row-cate rep">REP</span>
+						</label>
+						<input id="q-15-a" type="radio" name="question-15" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-15-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Derrick Melgar</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-15-b" type="radio" name="question-15" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">DISTRICT ATTORNEY</h4>
+						<label class="row vote-answer-unit" for="q-16-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Corey Behnke</span>
+							<span class="col-sm-3 vote-row-cate rep">REP</span>
+						</label>
+						<input id="q-16-a" type="radio" name="question-16" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-16-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Jennifer A. Lundeed</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-16-b" type="radio" name="question-16" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">COUNTY TREASURER</h4>
+						<label class="row vote-answer-unit" for="q-17-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Dean Caffee</span>
+							<span class="col-sm-3 vote-row-cate rep">REP</span>
+						</label>
+						<input id="q-17-a" type="radio" name="question-17" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-17-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Gordon Kallas</span>
+							<span class="col-sm-3 vote-row-cate dem">DEM</span>
+						</label>
+						<input id="q-17-b" type="radio" name="question-17" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">SHERIFF</h4>
+						<label class="row vote-answer-unit" for="q-18-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Stanley Saari</span>
+							<span class="col-sm-3 vote-row-cate ">GP</span>
+						</label>
+						<input id="q-18-a" type="radio" name="question-18" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-18-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Jason Valle</span>
+							<span class="col-sm-3 vote-row-cate ">LIB</span>
+						</label>
+						<input id="q-18-b" type="radio" name="question-18" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">COUNTY TAX ASSESSOR</h4>
+						<label class="row vote-answer-unit" for="q-19-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Howard Grady</span>
+							<span class="col-sm-3 vote-row-cate ">IND</span>
+						</label>
+						<input id="q-19-a" type="radio" name="question-19" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-19-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Randy H. Clemons</span>
+							<span class="col-sm-3 vote-row-cate ">CON</span>
+						</label>
+						<input id="q-19-b" type="radio" name="question-19" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">JUSTICE OF THE PEACE</h4>
+						<label class="row vote-answer-unit" for="q-20-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Deborah Kamps</span>
+							<span class="col-sm-3 vote-row-cate "></span>
+						</label>
+						<input id="q-20-a" type="radio" name="question-20" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-20-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Clyde Gayton Jr.</span>
+							<span class="col-sm-3 vote-row-cate "></span>
+						</label>
+						<input id="q-20-b" type="radio" name="question-20" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">COUNTY JUDGE</h4>
+						<label class="row vote-answer-unit" for="q-21-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Dan Atchley</span>
+							<span class="col-sm-3 vote-row-cate "></span>
+						</label>
+						<input id="q-21-a" type="radio" name="question-21" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-21-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-8 vote-row-text">Lewis Shine</span>
+							<span class="col-sm-3 vote-row-cate "></span>
+						</label>
+						<input id="q-21-b" type="radio" name="question-21" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">PROPOSITION 1</h4>
+						<p class="vote-row-p">Without raising taxes and in order to pay for public safety, public works, parks and recreation, health care, libraries, and other essential services, shall Harris County and the City of Houston be authorized to retain and spend all city and county tax revenues in excess of the constitutional limitation on total city and county fiscal year spending for ten fiscal years beginning with the 2013 fiscal year, and to retain and spend an amount of city and tax revenues in excess of such limitation for the 2020 fiscal year and for each succeeding fiscal year up to the excess city and county revenue cap, as defined by this measure?</p>
+						<label class="row vote-answer-unit" for="q-22-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-11 vote-row-text">YES</span>
+						</label>
+						<input id="q-22-a" type="radio" name="question-22" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-22-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-11 vote-row-text">NO</span>
+						</label>
+						<input id="q-22-b" type="radio" name="question-22" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">PROPOSITION 2</h4>
+						<p class="vote-row-p">Shall the Charter of Harris County be amended to authorize the City Council to review and approve certain intergovernmental agreements and revenue contracts entered into by the City; to permit the City Council to establish its meeting schedule by ordinance; to clarify the circumstances in which the City Council may act by ordinance or resolution; to permit the City Council to adopt by ordinance procedures for the formation and administration of special assessment districts; to permit excused absences of council members for reasons other than sickness; and to make other conforming amendments related thereto in order to eliminate redundant or obsolete provisions of the charter?</p>
+						<label class="row vote-answer-unit" for="q-23-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-11 vote-row-text">YES</span>
+						</label>
+						<input id="q-23-a" type="radio" name="question-23" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-23-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-11 vote-row-text">NO</span>
+						</label>
+						<input id="q-23-b" type="radio" name="question-23" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">PROPOSITION 3</h4>
+						<p class="vote-row-p">Shall there be an amendment to the Texas constitution concerning recovery of damages relating to construction of real property improvements, and, in connection therewith, prohibiting laws that limit or impair a property owner’s right to recover damages caused by a failure to construct an improvement in a good and workmanlike manner; defining “good and workmanlike manner” to include construction that is suitable for its intended purposes; and permitting exceptions for laws that limit punitive damages, afford governmental immunity, or impose time limits of specified minimum lengths on filing lawsuits?</p>
+						<label class="row vote-answer-unit" for="q-24-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-11 vote-row-text">YES</span>
+						</label>
+						<input id="q-24-a" type="radio" name="question-24" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-24-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-11 vote-row-text">NO</span>
+						</label>
+						<input id="q-24-b" type="radio" name="question-24" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">PROPOSITION 4</h4>
+						<p class="vote-row-p">Shall there be an amendment to the Texas revised statutes concerning renewable energy standards for large providers of retail electric service, and, in connection therewith, defining eligible renewable energy resources to include solar, wind, geothermal, small hydroelectricity, and hydrogen fuel cells; requiring that a percentage of retail electricity sales be derived from renewable sources, beginning with 3% in the year 2013 and increasing to 10% by 2021; requiring utilities to offer consumers a rebate of $2.00 per watt and other incentives for solar electric generation; providing incentives for utilities to invest in renewable energy resources that provide net economic benefits to customers; limiting the retail rate impact of renewable energy resources to 50 cents per month for residential customers; requiring public utilities commission rules to establish major aspects of the measure; prohibiting utilities from using condemnation or eminent domain to acquire land for generating facilities used to meet the standards; requiring utilities with requirements contracts to address shortfalls from the standards; and specifying election procedures by which the customers of a utility may opt out of the requirements of the amendment?</p>
+						<label class="row vote-answer-unit" for="q-25-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-11 vote-row-text">YES</span>
+						</label>
+						<input id="q-25-a" type="radio" name="question-25" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-25-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-11 vote-row-text">NO</span>
+						</label>
+						<input id="q-25-b" type="radio" name="question-25" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">PROPOSITION 5</h4>
+						<p class="vote-row-p">Shall there be an amendment to the Texas constitution concerning election day voter registration, and, in connection therewith, allowing an eligible citizen to register and vote on any day that a vote may be cast in any election beginning on January 1, 2013; specifying election day voter registration locations; specifying that an eligible citizen who registers to vote on election day shall register in person and present a current and valid Texas driver’s license or state identification card or other approved documentation; and directing the Texas general assembly, in implementing election day voter registration, to adopt necessary protections against election fraud?</p>
+						<label class="row vote-answer-unit" for="q-26-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-11 vote-row-text">YES</span>
+						</label>
+						<input id="q-26-a" type="radio" name="question-26" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-26-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-11 vote-row-text">NO</span>
+						</label>
+						<input id="q-26-b" type="radio" name="question-26" value="x" class="vote-area-radio">
+					</div>
+					<div class="vote-unit row">
+						<h4 class="vote-question">PROPOSITION 6</h4>
+						<p class="vote-row-p">Shall the Charter of Harris County concerning the powers of the City Council be amended in regard to the sale of city-owned property, to require Council approval for the sale of personal property valued at $500,000 or more, and to clarify language requiring Council approval of any sale of real property?</p>
+						<label class="row vote-answer-unit" for="q-27-a">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-11 vote-row-text">YES</span>
+						</label>
+						<input id="q-27-a" type="radio" name="question-27" value="x" class="vote-area-radio">
+						<label class="row vote-answer-unit" for="q-27-b">
+							<span class="col-sm-1 vote-row-arrow glyphicon glyphicon-arrow-right"></span>
+							<span class="col-sm-11 vote-row-text">NO</span>
+						</label>
+						<input id="q-27-b" type="radio" name="question-27" value="x" class="vote-area-radio">
+					</div>
+				</div>
+			</div>
+  		</div>
+  		<div class="vote-footer">
+  			<div class="navbar navbar-inverse navbar-fixed-bottom">
+		        <div class="container-fluid">
+		          	<div class="footer-flow row">
+	  					<span class="col-sm-10"></span>
+	  					<span class="col-sm-2">
+	  						<button type="button" class="btn btn-primary next-btn" data-idx="1">Next</button>
+	  						<button type="button" class="btn btn-primary review-btn">Review Page</button>
+	  						<button type="button" class="btn btn-primary back-btn">Back</button>
+	  					</span>
+		          </div>
+		        </div>
+		    </div>
+  		</div>
+  	</div>
+  	<div class="review-area-1">
+  		<div class="page-header text-center">
+		  <h1>My Ballot 2014<small>part 1 of 2</small></h1>
+		</div>
+		<div class="row">
+	        <div class="col-sm-4">
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="1"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">PRESIDENT AND VICE PRESIDENT</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-1" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9 rep">Gordon Bearce Nathan Maclean</span>
+		            		<span class="col-sm-2 rep">REP</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-1" class="review-radio">
+							</span>
+							<span class="col-sm-9 dem">Vernon Stanley Albury Richard Rigby</span>
+							<span class="col-sm-2 dem">DEM</span>
+						</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-1" class="review-radio">
+							</span>
+							<span class="col-sm-9">Janette Froman Chris Aponte</span>
+							<span class="col-sm-2">LIB</span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="2"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">UNITED STATES SENATOR</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-2" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9 rep">Cecile Cadieux</span>
+		            		<span class="col-sm-2 rep">REP</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-2" class="review-radio">
+							</span>
+							<span class="col-sm-9 dem">Fern Brzezinski</span>
+							<span class="col-sm-2 dem">DEM</span>
+						</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-2" class="review-radio">
+							</span>
+							<span class="col-sm-9">Corey Dery</span>
+							<span class="col-sm-2">IND</span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="3"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">REPRESENTATIVE IN CONGRESS</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-3" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9 rep">Pedro Brouse</span>
+		            		<span class="col-sm-2 rep">REP</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-3" class="review-radio">
+							</span>
+							<span class="col-sm-9 dem">Robert Mettler</span>
+							<span class="col-sm-2 dem">DEM</span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="4"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">GOVERNOR</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-4" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9 rep">Glen Travis Lozier</span>
+		            		<span class="col-sm-2 rep">REP</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-4" class="review-radio">
+							</span>
+							<span class="col-sm-9 dem">Rick Stickles</span>
+							<span class="col-sm-2 dem">DEM</span>
+						</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-4" class="review-radio">
+							</span>
+							<span class="col-sm-9">Maurice Humble</span>
+							<span class="col-sm-2"></span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="5"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">LIEUTENANT GOVERNOR</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-5" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9 rep">Shane Terrio</span>
+		            		<span class="col-sm-2 rep">REP</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-5" class="review-radio">
+							</span>
+							<span class="col-sm-9 dem">Cassie Principe</span>
+							<span class="col-sm-2 dem">DEM</span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="6"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">ATTORNEY GENERAL</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-6" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9 rep">Tim Speight</span>
+		            		<span class="col-sm-2 rep">REP</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-6" class="review-radio">
+							</span>
+							<span class="col-sm-9 dem">Rick Organ</span>
+							<span class="col-sm-2 dem">DEM</span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="7"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">COMPTROLLER OF PUBLIC ACCOUNTS</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-7" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9">Therese Gustin</span>
+		            		<span class="col-sm-2">IND</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-7" class="review-radio">
+							</span>
+							<span class="col-sm-9 dem">Greg Converse</span>
+							<span class="col-sm-2 dem">DEM</span>
+						</label>
+		            </div>
+	          	</div>
+	          	
+	        </div>
+	        <div class="col-sm-4">
+	        	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="8"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">COMMISSIONER OF GENERAL LAND OFFICE</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-8" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9 rep">Sam Saddler</span>
+		            		<span class="col-sm-2 rep">REP</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-8" class="review-radio">
+							</span>
+							<span class="col-sm-9 dem">Elise Ellzey</span>
+							<span class="col-sm-2 dem">DEM</span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="9"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">COMMISSIONER OF AGRICULTURE</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-9" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9 rep">Polly Rylander</span>
+		            		<span class="col-sm-2 rep">REP</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-9" class="review-radio">
+							</span>
+							<span class="col-sm-9 dem">Roberto Aron</span>
+							<span class="col-sm-2 dem">DEM</span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="10"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">RAILROAD COMMISSIONER</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-10" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9 rep">Jillian Balas</span>
+		            		<span class="col-sm-2 rep">REP</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-10" class="review-radio">
+							</span>
+							<span class="col-sm-9 dem">Zachary Minick</span>
+							<span class="col-sm-2 dem">DEM</span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="11"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">STATE SENATOR</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-11" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9 rep">Ricardo Nigro</span>
+		            		<span class="col-sm-2 rep">REP</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-11" class="review-radio">
+							</span>
+							<span class="col-sm-9 dem">Wesley Steven Millette</span>
+							<span class="col-sm-2 dem">DEM</span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="12"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">STATE REPRESENTATIVE DISTRICT 134</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-12" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9 rep">Petra Bencomo</span>
+		            		<span class="col-sm-2 rep">REP</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-12" class="review-radio">
+							</span>
+							<span class="col-sm-9 dem">Susanne Rael</span>
+							<span class="col-sm-2 dem">DEM</span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="13"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">MEMBER STATE BOARD OF EDUCATION DISTRICT 2</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-13" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9 rep">Peter Varga</span>
+		            		<span class="col-sm-2 rep">REP</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-13" class="review-radio">
+							</span>
+							<span class="col-sm-9 dem">Mark Baber</span>
+							<span class="col-sm-2 dem">DEM</span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="14"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">PRESIDING JUDGE TEXAS SUPREME COURT PLACE 3</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-14" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9 dem">Tim Grasty</span>
+		            		<span class="col-sm-2 dem">DEM</span>
+		            	</label>
+		            </div>
+	          	</div>
+	        </div>
+	        <div class="col-sm-4">
+	        	
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="15"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">PRESIDING JUDGE COURT OF CRIMINAL APPEALS, PLACE 2</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-15" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9 rep">Dan Plouffe</span>
+		            		<span class="col-sm-2 rep">REP</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-15" class="review-radio">
+							</span>
+							<span class="col-sm-9 dem">Derrick Melgar</span>
+							<span class="col-sm-2 dem">DEM</span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="16"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">DISTRICT ATTORNEY</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-16" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9 rep">Corey Behnke</span>
+		            		<span class="col-sm-2 rep">REP</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-16" class="review-radio">
+							</span>
+							<span class="col-sm-9 dem">Jennifer A. Lundeed</span>
+							<span class="col-sm-2 dem">DEM</span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="17"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">COUNTY TREASURER</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-17" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9 rep">Dean Caffee</span>
+		            		<span class="col-sm-2 rep">REP</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-17" class="review-radio">
+							</span>
+							<span class="col-sm-9 dem">Gordon Kallas</span>
+							<span class="col-sm-2 dem">DEM</span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="18"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">SHERIFF</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-18" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9">Stanley Saari</span>
+		            		<span class="col-sm-2">GP</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-18" class="review-radio">
+							</span>
+							<span class="col-sm-9">Jason Valle</span>
+							<span class="col-sm-2">LIB</span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="19"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">COUNTY TAX ASSESSOR</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-19" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9">Howard Grady</span>
+		            		<span class="col-sm-2">IND</span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-19" class="review-radio">
+							</span>
+							<span class="col-sm-9">Randy H. Clemons</span>
+							<span class="col-sm-2">CON</span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="20"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">JUSTICE OF THE PEACE</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-20" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9">Deborah Kamps</span>
+		            		<span class="col-sm-2"></span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-20" class="review-radio">
+							</span>
+							<span class="col-sm-9">Clyde Gayton Jr.</span>
+							<span class="col-sm-2"></span>
+						</label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+	          		<i class="panel-mask" data-idx="21"></i>
+		            <div class="panel-heading">
+		              	<h3 class="panel-title">COUNTY JUDGE</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<label class="row">
+		            		<span class="col-sm-1">
+		            			<input type="radio" name="review-21" class="review-radio">
+		            		</span>
+		            		<span class="col-sm-9">Dan Atchley</span>
+		            		<span class="col-sm-2"></span>
+		            	</label>
+						<label class="row">
+							<span class="col-sm-1">
+								<input type="radio"  name="review-21" class="review-radio">
+							</span>
+							<span class="col-sm-9">Lewis Shine</span>
+							<span class="col-sm-2"></span>
+						</label>
+		            </div>
+	          	</div>
+	        </div>
+	    </div>
+	  	<button type="button" class="btn btn-lg btn-primary next-review-btn">Next</button>
+	</div>
+	<div class="review-area-2">
+  		<div class="page-header text-center">
+		  <h1>My Ballot 2014<small>part 2 of 2</small></h1>
+		</div>
+		<div class="row">
+	        <div class="col-sm-6">
+	          	<div class="panel panel-default">
+		            <i class="panel-mask" data-idx="22"></i>
+		            <div class="panel-heading">
+		              <h3 class="panel-title">PROPOSITION 1</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<p>Without raising taxes and in order to pay for public safety, public works, parks and recreation, health care,libraries, and other essential services,shall Harris County and the City ofHouston be authorized to retain andspend all city and county tax revenuesin excess of the constitutional limitationon total city and county fiscal yearspending for ten fiscal years beginningwith the 2013 fiscal year, and to retainand spend an amount of city and taxrevenues in excess of such limitation for the 2020 fiscal year and for each succeeding fiscal year up to the excess city and county revenue cap, as defined by this measure?</p>
+		            	<label class="row"><span class="col-sm-1"><input type="radio" name="review-22" class="review-radio"></span><span class="col-sm-9">YES</span></label>
+						<label class="row"><span class="col-sm-1"><input type="radio" name="review-22" class="review-radio"></span><span class="col-sm-9">NO</span></label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+		            <i class="panel-mask" data-idx="23"></i>
+		            <div class="panel-heading">
+		              <h3 class="panel-title">PROPOSITION 2</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<p>Shall the Charter of Harris County be amended to authorize the City Council to review and approve certain intergovernmental agreements and revenue contracts entered into by the City; to permit the City Council to establish its meeting schedule by ordinance; to clarify the circumstances in which the City Council may act by ordinance or resolution; to permit the City Council to adopt by ordinance procedures for the formation and administration of special assessment districts; to permit excused absences of council members for reasons other than sickness; and to make other conforming amendments related thereto in order to eliminate redundant or obsolete provisions of the charter?</p>
+		            	<label class="row"><span class="col-sm-1"><input type="radio" name="review-23" class="review-radio"></span><span class="col-sm-9">YES</span></label>
+						<label class="row"><span class="col-sm-1"><input type="radio" name="review-23" class="review-radio"></span><span class="col-sm-9">NO</span></label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+		            <i class="panel-mask" data-idx="24"></i>
+		            <div class="panel-heading">
+		              <h3 class="panel-title">PROPOSITION 3</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<p>Shall there be an amendment to the Texas constitution concerning recovery of damages relating to construction of real property improvements, and, in connection therewith, prohibiting laws that limit or impair a property owner’s right to recover damages caused by a failure to construct an improvement in a good and workmanlike manner; defining “good and workmanlike manner” to include construction that is suitable for its intended purposes; and permitting exceptions for laws that limit punitive damages, afford governmental immunity, or impose time limits of specified minimum lengths on filing lawsuits?</p>
+		            	<label class="row"><span class="col-sm-1"><input type="radio" name="review-24" class="review-radio"></span><span class="col-sm-9">YES</span></label>
+						<label class="row"><span class="col-sm-1"><input type="radio" name="review-24" class="review-radio"></span><span class="col-sm-9">NO</span></label>
+		            </div>
+	          	</div>
+	        </div>
+	        <div class="col-sm-6">
+	        	<div class="panel panel-default">
+		            <i class="panel-mask" data-idx="25"></i>
+		            <div class="panel-heading">
+		              <h3 class="panel-title">PROPOSITION 4</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<p>Shall there be an amendment to the Texas revised statutes concerning renewable energy standards for large providers of retail electric service, and, in connection therewith, defining eligible renewable energy resources to include solar, wind, geothermal, small hydroelectricity, and hydrogen fuel cells; requiring that a percentage of retail electricity sales be derived from renewable sources, beginning with 3% in the year 2013 and increasing to 10% by 2021; requiring utilities to offer consumers a rebate of $2.00 per watt and other incentives for solar electric generation; providing incentives for utilities to invest in renewable energy resources that provide net economic benefits to customers; limiting the retail rate impact of renewable energy resources to 50 cents per month for residential customers; requiring public utilities commission rules to establish major aspects of the measure; prohibiting utilities from using condemnation or eminent domain to acquire land for generating facilities used to meet the standards; requiring utilities with requirements contracts to address shortfalls from the standards; and specifying election procedures by which the customers of a utility may opt out of the requirements of the amendment?</p>
+		            	<label class="row"><span class="col-sm-1"><input type="radio" name="review-25" class="review-radio"></span><span class="col-sm-9">YES</span></label>
+						<label class="row"><span class="col-sm-1"><input type="radio" name="review-25" class="review-radio"></span><span class="col-sm-9">NO</span></label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+		            <i class="panel-mask" data-idx="26"></i>
+		            <div class="panel-heading">
+		              <h3 class="panel-title">PROPOSITION 5</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<p>Shall there be an amendment to the Texas constitution concerning election day voter registration, and, in connection therewith, allowing an eligible citizen to register and vote on any day that a vote may be cast in any election beginning on January 1, 2013; specifying election day voter registration locations; specifying that an eligible citizen who registers to vote on election day shall register in person and present a current and valid Texas driver’s license or state identification card or other approved documentation; and directing the Texas general assembly, in implementing election day voter registration, to adopt necessary protections against election fraud?</p>
+		            	<label class="row"><span class="col-sm-1"><input type="radio" name="review-26" class="review-radio"></span><span class="col-sm-9">YES</span></label>
+						<label class="row"><span class="col-sm-1"><input type="radio" name="review-26" class="review-radio"></span><span class="col-sm-9">NO</span></label>
+		            </div>
+	          	</div>
+	          	<div class="panel panel-default">
+		            <i class="panel-mask" data-idx="27"></i>
+		            <div class="panel-heading">
+		              <h3 class="panel-title">PROPOSITION 6</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<p>Shall the Charter of Harris County concerning the powers of the City Council be amended in regard to the sale of city-owned property, to require Council approval for the sale of personal property valued at $500,000 or more, and to clarify language requiring Council approval of any sale of real property?</p>
+		            	<label class="row"><span class="col-sm-1"><input type="radio" name="review-27" class="review-radio"></span><span class="col-sm-9">YES</span></label>
+						<label class="row"><span class="col-sm-1"><input type="radio" name="review-27" class="review-radio"></span><span class="col-sm-9">NO</span></label>
+		            </div>
+	          	</div>
+	        </div>
+	    </div>
+	    <form action="questionnaire_index.php" method="post" id="qform">
+	    	<input type="hidden" value="" name="user_id" id="user_id">
+	    	<input type="hidden" value="" name="answer_sequence" id="answer_sequence">
+			<!-- <button type="submit" class="btn btn-default submit-btn">Submit</button> -->
+			<button type="submit" class="btn btn-lg btn-primary submit-btn">Submit</button>
+	    </form>
+	    <!-- <button type="button" class="btn btn-default submit-btn">Submit</button> -->
+	  	
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var $wrap = $('.mod-vote-box');
+			var	questionLen = $wrap.find('.vote-area .vote-unit').length;
+			var ansList = [];
+			var user_id = "";
+			// var answer_list = "";
+			$wrap.on('click','#vote-begin', function(){
+				$('.vote-welcome').hide();
+				$('.vote-intro').show();
+			})
+			.on('click','#vote-id-done',function(){
+				user_id = $('.vote-id-input').val();
+				$('#user_id').val(user_id);
+				$('.vote-intro').hide();
+				$('.vote-area').show();
+			})
+			.on('click','.vote-area .vote-answer-unit',function(e){
+				// 更改选中状态
+				$(this).parent().find('.vote-answer-unit').removeClass('vote-answer-bg');
+				$(this).parent().find('.vote-answer-unit .vote-row-arrow').css('visibility','hidden');
+				$(this).addClass('vote-answer-bg');
+				$(this).find('.vote-row-arrow').css('visibility','visible');
+				//题号&&选中值
+				var questionSeq = $(this).attr('for').split('-')[1]; //123
+				var selectSeq = $(this).parent().find('.vote-answer-unit').index($(this));//0a1b3c
+				if (questionSeq < 22) {
+					$('.review-area-1').find('.panel').eq(questionSeq-1).find('.review-radio').eq(selectSeq).attr('checked','checked');
+					$('.review-area-1').find('.panel').eq(questionSeq-1).find('.row').removeClass('selected');
+					$('.review-area-1').find('.panel').eq(questionSeq-1).find('.row').eq(selectSeq).addClass('selected');
+					$('.review-area-1').find('.panel').eq(questionSeq-1).find('.row span').removeClass('bold');
+					$('.review-area-1').find('.panel').eq(questionSeq-1).find('.review-radio').eq(selectSeq).parent().siblings().addClass('bold');
+
+				}else{
+					
+					$('.review-area-2').find('.panel').eq(questionSeq-22).find('.review-radio').eq(selectSeq).attr('checked','checked');
+					$('.review-area-2').find('.panel').eq(questionSeq-1).find('.row').removeClass('selected');
+
+					$('.review-area-2').find('.panel').eq(questionSeq-22).find('.row').eq(selectSeq).addClass('selected');
+					$('.review-area-2').find('.panel').eq(questionSeq-22).find('.row span').removeClass('bold');
+					$('.review-area-2').find('.panel').eq(questionSeq-22).find('.review-radio').eq(selectSeq).parent().siblings().addClass('bold');
+				}
+			})
+			.on('click','.next-btn',function(){
+				var index = ~~$(this).attr('data-idx');
+				$('.vote-unit').hide();
+				$('.vote-unit').eq( index ).show();
+				// $(this).attr('data-idx',index);
+				index == questionLen-1 && $('.review-btn').show() && $('.next-btn').hide();
+
+				//record first choice
+				var $voteItem = $('.vote-unit').eq( index-1 ).find('.vote-answer-unit');
+				var $selectAns = $('.vote-unit').eq( index-1 ).find('.vote-answer-bg');
+				var selExist = $selectAns.length;
+				var voteArr = $voteItem.attr('for').split('-');
+				var record = "";
+				if(selExist){
+					var selArr = $selectAns.attr('for').split('-');
+					record = selArr[1] + selArr[2];
+				}else{
+					record = voteArr[1] + 'x';
+					if (index<22) {
+						$('.review-area-1').find('.panel').eq(index-1).removeClass('panel-default').addClass('panel-warning');
+					}else{
+						$('.review-area-2').find('.panel').eq(index-22).removeClass('panel-default').addClass('panel-warning');
+					}
+				}
+				ansList.push(record);
+				$('#answer_sequence').val(ansList.join(''));
+				$(this).attr('data-idx',index+1);
+			})
+			.on('click','.review-btn',function(){
+				//once
+				var $voteItem = $('.vote-unit').last().find('.vote-answer-unit');
+				var $selectAns = $('.vote-unit').last().find('.vote-answer-bg');
+				var selExist = $selectAns.length;
+				var voteArr = $voteItem.attr('for').split('-');
+				var record = "";
+				if(selExist){
+					var selArr = $selectAns.attr('for').split('-');
+					record = selArr[1] + selArr[2];
+				}else{
+					record = voteArr[1] + 'x';
+					$('.review-area-2').find('.panel').last().removeClass('panel-default').addClass('panel-warning');
+				}
+				ansList.push(record);
+				$('#answer_sequence').val(ansList.join(''));
+
+
+				$('.vote-area').addClass('review-area').hide();
+				$('.vote-unit').hide();
+				$('.review-btn').hide();
+				$('.review-area-1').show();
+
+
+			})
+			.on('click','.panel-mask',function(){
+				$('.vote-area').show();
+				$('.vote-unit').eq(~~$(this).attr('data-idx')-1).show();
+				$('.review-area-1').hide();
+				$('.review-area-2').hide();
+				$('.back-btn').show().attr('data-idx',~~$(this).attr('data-idx'));
+
+			})
+			.on('click','.back-btn',function(){
+				var index = ~~$(this).attr('data-idx');
+
+				$('.vote-area').hide();
+				$('.vote-unit').hide();
+				if(index<22){
+					// $('.review-area-1').find('.panel').eq(index)
+					$('.review-area-1').show();
+				}else{
+					$('.review-area-2').show();
+				}
+				var $selectAns = $('.vote-unit').eq( index-1 ).find('.vote-answer-bg');
+				var selExist = $selectAns.length;
+				var record = "";
+				if(selExist){
+					var selArr = $selectAns.attr('for').split('-');
+					record = selArr[2];
+					if (index<22) {
+						$('.review-area-1').find('.panel').eq(index-1).removeClass('panel-warning').addClass('panel-default');
+					}else{
+						$('.review-area-2').find('.panel').eq(index-22).removeClass('panel-warning').addClass('panel-default');
+					}
+				}else{
+					record = 'x';
+				}
+				ansList[index-1] = ansList[index-1]+record;
+				$('#answer_sequence').val(ansList.join(''));
+
+
+			})
+			.on('click','.next-review-btn',function(){
+				$('.review-area-1').hide();
+				$('.review-area-2').show();
+			})
+			// .on('click','.submit-btn',function(){
+			// 	$.post('questionnaire_index.php',{
+	  //                   user_id: user_id,
+	  //                   answer_sequence: ansList.join('')
+	  //           },function(){},'json');
+			// })
+			;
+			var options = { 
+				success: showResult	
+		    }; 
+			$('#qform').submit(function() { 
+			        $(this).ajaxSubmit(options); 
+			        return false;
+			});
+		    function showResult(responseString){
+		    	if (responseString == "server_error") {
+		    		alert("Some thing wrong with server, please submit again. Sorry for that :-)");
+		    	} else{
+		    		$('.review-area-2').hide();
+		    		$('.vote-success').show();
+		    	};
+		    }
+		    // function dialog(str){
+		    //     $('#myModal .modal-body').eq(0).html(str);
+		    //     $('#myModal').modal('show');
+		    // }
+		});
+	</script>
+</body>
+</html>
